@@ -1,28 +1,36 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+	<div id="app">
+		<header class="header">
+			<h1 class="header__tit text-center">農村地方美食小吃特色料理</h1>
+		</header>
+		<main class="main mx-auto container">
+      <Table />
+    </main>
+	</div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Table from '@/components/Table.vue'
+	export default {
+		name: "App",
+		components: {
+      Table
+    },
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+	};
 </script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="scss" scoped>
+	.header {
+		padding: {
+			top: 15px;
+			bottom: 15px;
+		}
+		&__tit {
+			font: {
+				size: 2rem;
+				weight: 600;
+			}
+		}
+	}
 </style>
