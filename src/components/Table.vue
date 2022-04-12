@@ -11,14 +11,14 @@
 		</thead>
 		<tbody class="spotTable__tbody" id="SpotTableTbody">
 			<tr
-				v-for="(item, index) in data"
-				:key="index"
+				v-for="(item, index) in parentData"
+				:key="item.Name"
 				:class="['spotTable__tr', { 'js-bg__grey': index % 2 !== 0 }]"
 			>
 				<td class="text-center text-grey spotTable__td">
-          {{perPage * btnIndex + index + 1}}
-        </td>
-				<td class="spotTable__td text-nowrap"></td>
+					{{ parentPerPage * parentBtnIndex + index + 1 }}
+				</td>
+				<td class="spotTable__td text-nowrap">{{item.City}}</td>
 				<td class="spotTable__td">
 					<div class="spotTable__smBox">
 						<img
@@ -53,22 +53,88 @@
 		data() {
 			return {
 				data: [],
-				totalLen: 0,
-				perPage: 10,
-				btnIndex: 0,
+				_index: 0,
 			};
 		},
-		async created() {
-			try {
-				const api =
-					"https://data.coa.gov.tw/Service/OpenData/ODwsv/ODwsvTravelFood.aspx";
-				const res = await this.$http.get(api);
-				this.data = res.data;
-				console.log(this.data);
-			} catch (e) {
-				console.log("資料連結失敗:\n", e);
-			}
+		props: {
+			parentData: Array,
+			parentBtnIndex: Number,
+			parentPerPage: Number,
 		},
-		methods: {},
+		
+		
 	};
 </script>
+<style lang="scss" scoped>
+	.spotTable {
+		min-width: 50%;
+		font: {
+			size: 15px;
+		}
+		&__smBox {
+			position: relative;
+			width: 78px;
+		}
+		&__lgBox {
+			position: absolute;
+			z-index: 1;
+			width: 300px;
+			padding: 10px;
+			top: 0;
+			left: calc(100% + 16px);
+			background: {
+				color: #fff;
+			}
+			box: {
+				shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+			}
+		}
+		&__img {
+			display: block;
+			width: 100%;
+			height: auto;
+		}
+		&__link {
+			color: #0077b5;
+			&:hover {
+				text: {
+					decoration: none;
+				}
+			}
+		}
+		&__thead {
+			background: {
+				color: #f8f8f8;
+			}
+			border: {
+				bottom: solid 2px #ccc;
+			}
+		}
+		&__td,
+		&__th {
+			border: solid 1px #ddd;
+			vertical-align: middle;
+		}
+		&__td {
+			padding: 13px 10px;
+			line-height: 1.25rem;
+		}
+
+		&__th {
+			padding: 10px;
+			line-height: 1.25rem;
+			color: #707070;
+		}
+		&__tbody:hover {
+			.spotTable {
+				&__tr:hover {
+					background: {
+						color: #eff4f7;
+					}
+				}
+			}
+		}
+	}
+
+	
+</style>
