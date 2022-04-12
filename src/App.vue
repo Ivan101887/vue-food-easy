@@ -3,13 +3,14 @@
 		<header class="header">
 			<h1 class="header__tit text-center">農村地方美食小吃特色料理</h1>
 		</header>
+		<Loader v-show="shouldShowLoader" />
 		<main class="main mx-auto container">
-			<Table 
+			<Table
 				:parent-data="data[btnIndex]"
 				:parent-btn-index="btnIndex"
 				:parent-per-page="perPage"
 			/>
-			<pagination 
+			<pagination
 				:parent-btn-index="btnIndex"
 				:parent-per-page="perPage"
 				:parent-len="len"
@@ -22,18 +23,21 @@
 <script>
 	import Table from "@/components/Table.vue";
 	import Pagination from "./components/Pagination.vue";
+	import Loader from "./components/Loader.vue";
 	export default {
 		name: "App",
 		components: {
 			Table,
 			Pagination,
+			Loader,
 		},
 		data() {
 			return {
 				data: [],
-				len:0,
+				len: 0,
 				perPage: 10,
 				btnIndex: 0,
+				shouldShowLoader: true,
 			};
 		},
 		async created() {
@@ -41,6 +45,7 @@
 				const api =
 					"https://data.coa.gov.tw/Service/OpenData/ODwsv/ODwsvTravelFood.aspx";
 				const res = await this.$http.get(api);
+				this.shouldShowLoader = !this.shouldShowLoader
 				this.sortData(res.data);
 				this.len = Math.ceil(res.data.length / this.perPage);
 			} catch (e) {
@@ -59,7 +64,7 @@
 			},
 			updateIndex(e) {
 				this.btnIndex = e.target.value - 1;
-			}
+			},
 		},
 	};
 </script>

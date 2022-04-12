@@ -18,7 +18,7 @@
 				<td class="text-center text-grey spotTable__td">
 					{{ parentPerPage * parentBtnIndex + index + 1 }}
 				</td>
-				<td class="spotTable__td text-nowrap">{{item.City}}</td>
+				<td class="spotTable__td text-nowrap">{{ item.City }}</td>
 				<td class="spotTable__td">
 					<div class="spotTable__smBox">
 						<img
@@ -27,7 +27,18 @@
 							:src="item.PicURL"
 							width="91"
 							height="54"
+							@mouseenter="imgHoveredIndex = index"
+							@mouseout="imgHoveredIndex = -1"
 						/>
+						<div class="spotTable__lgBox" v-if="imgHoveredIndex === index">
+							<img
+								class="spotTable__img"
+								:src="item.PicURL"
+								:alt="item.Name"
+								width="348"
+								height="237"
+							/>
+						</div>
 					</div>
 				</td>
 				<td class="spotTable__td">
@@ -52,8 +63,7 @@
 		name: "Table",
 		data() {
 			return {
-				data: [],
-				_index: 0,
+				imgHoveredIndex: false,
 			};
 		},
 		props: {
@@ -61,8 +71,6 @@
 			parentBtnIndex: Number,
 			parentPerPage: Number,
 		},
-		
-		
 	};
 </script>
 <style lang="scss" scoped>
@@ -135,6 +143,4 @@
 			}
 		}
 	}
-
-	
 </style>
