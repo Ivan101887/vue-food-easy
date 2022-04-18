@@ -6,7 +6,7 @@
 		<Loader v-show="shouldShowLoader" />
 		<main class="main mx-auto container">
 			<Table
-				:parent-data="data[btnIndex]"
+				:parent-data="sortedData[btnIndex]"
 				:parent-btn-index="btnIndex"
 				:parent-per-page="perPage"
 			/>
@@ -21,9 +21,9 @@
 </template>
 
 <script>
-	import Table from "@/components/Table.vue";
-	import Pagination from "./components/Pagination.vue";
-	import Loader from "./components/Loader.vue";
+	import Table from "@/components/Table";
+	import Pagination from "@/components/Pagination";
+	import Loader from "@/components/Loader";
 	export default {
 		name: "App",
 		components: {
@@ -34,6 +34,7 @@
 		data() {
 			return {
 				data: [],
+				sortedData: [],
 				len: 0,
 				perPage: 10,
 				btnIndex: 0,
@@ -41,29 +42,36 @@
 			};
 		},
 		async created() {
-			try {
-				const api =
-					"https://data.coa.gov.tw/Service/OpenData/ODwsv/ODwsvTravelFood.aspx";
-				const res = await this.$http.get(api);
-				this.shouldShowLoader = !this.shouldShowLoader
-				this.sortData(res.data);
-				this.len = Math.ceil(res.data.length / this.perPage);
-			} catch (e) {
-				console.log("資料連結失敗:\n", e);
-			}
+			await this.getData();
+			this.sortData(this.data);
+			this.len = Math.ceil(this.data.length / this.perPage);
+			this.toggleLoader();
 		},
 		methods: {
+			async getData() {
+				try {
+					const api =
+						"https://data.coa.gov.tw/Service/OpenData/ODwsv/ODwsvTravelFood.aspx";
+					const res = await this.$http.get(api);
+					this.data = res.data;
+				} catch (e) {
+					console.log("資料連結失敗:\n", e);
+				}
+			},
 			sortData(arr) {
 				arr.forEach((item, i) => {
 					if (i % this.perPage === 0) {
-						this.data.push([]);
+						this.sortedData.push([]);
 					}
 					const index = Math.floor(i / this.perPage);
-					this.data[index].push(item);
+					this.sortedData[index].push(item);
 				});
 			},
 			updateIndex(e) {
 				this.btnIndex = e.target.value - 1;
+			},
+			toggleLoader() {
+				this.shouldShowLoader = !this.shouldShowLoader;
 			},
 		},
 	};

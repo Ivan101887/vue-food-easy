@@ -27,7 +27,6 @@
 		methods: {
 			clickBtnIndex(e) {
 				this.nowPage = e.target.value;
-				this.$emit("click", this.nowPage);
 			},
 		},
 	};

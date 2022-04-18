@@ -63,7 +63,7 @@
 		name: "Table",
 		data() {
 			return {
-				imgHoveredIndex: false,
+				imgHoveredIndex: -1,
 			};
 		},
 		props: {
