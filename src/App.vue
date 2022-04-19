@@ -1,20 +1,18 @@
 <template>
 	<div id="app">
-		<header class="header">
-			<h1 class="header__tit text-center">農村地方美食小吃特色料理</h1>
-		</header>
-		<Loader v-show="shouldShowLoader" />
+		<TheHeader :parent-title="title"/>
+		<Loader v-show="isLoading" />
 		<main class="main mx-auto container">
 			<Table
-				:parent-data="sortedData[btnIndex]"
-				:parent-btn-index="btnIndex"
-				:parent-per-page="perPage"
+				:parent-data="sortData[btnIndex]"
+				:parent-index="btnIndex"
+				:parent-size="perPage"
 			/>
-			<pagination
-				:parent-btn-index="btnIndex"
-				:parent-per-page="perPage"
-				:parent-len="len"
-				@update-index="updateIndex"
+			<Pagination
+				:parent-index="btnIndex"
+				:parent-size="perPage"
+				:parent-len="sortData.length"
+				@update="updateBtnIndex"
 			/>
 		</main>
 	</div>
@@ -24,28 +22,40 @@
 	import Table from "@/components/Table";
 	import Pagination from "@/components/Pagination";
 	import Loader from "@/components/Loader";
+	import TheHeader from "./components/TheHeader.vue";
 	export default {
 		name: "App",
 		components: {
 			Table,
 			Pagination,
 			Loader,
+			TheHeader,
 		},
 		data() {
 			return {
+				title: "農村地方美食小吃特色料理",
 				data: [],
-				sortedData: [],
-				len: 0,
 				perPage: 10,
 				btnIndex: 0,
-				shouldShowLoader: true,
+				isLoading: true,
 			};
 		},
 		async created() {
 			await this.getData();
-			this.sortData(this.data);
-			this.len = Math.ceil(this.data.length / this.perPage);
-			this.toggleLoader();
+			this.isLoading = !this.isLoading;
+		},
+		computed: {
+			sortData() {
+				const arr = [];
+				this.data.forEach((item, i) => {
+					if (i % this.perPage === 0) {
+						arr.push([]);
+					}
+					const _index = Math.floor(i / this.perPage);
+					arr[_index].push(item);
+				});
+				return arr;
+			},
 		},
 		methods: {
 			async getData() {
@@ -58,38 +68,15 @@
 					console.log("資料連結失敗:\n", e);
 				}
 			},
-			sortData(arr) {
-				arr.forEach((item, i) => {
-					if (i % this.perPage === 0) {
-						this.sortedData.push([]);
-					}
-					const index = Math.floor(i / this.perPage);
-					this.sortedData[index].push(item);
-				});
-			},
-			updateIndex(e) {
-				this.btnIndex = e.target.value - 1;
-			},
-			toggleLoader() {
-				this.shouldShowLoader = !this.shouldShowLoader;
+			updateBtnIndex(val) {
+				this.btnIndex = val;
 			},
 		},
 	};
 </script>
 
 <style lang="scss" scoped>
-	.header {
-		padding: {
-			top: 15px;
-			bottom: 15px;
-		}
-		&__tit {
-			font: {
-				size: 2rem;
-				weight: 600;
-			}
-		}
-	}
+	
 	.main {
 		display: flex;
 		margin: {

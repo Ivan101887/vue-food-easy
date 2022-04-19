@@ -16,7 +16,7 @@
 				:class="['spotTable__tr', { 'js-bg__grey': index % 2 !== 0 }]"
 			>
 				<td class="text-center text-grey spotTable__td">
-					{{ parentPerPage * parentBtnIndex + index + 1 }}
+					{{ parentSize * parentIndex + index + 1 }}
 				</td>
 				<td class="spotTable__td text-nowrap">{{ item.City }}</td>
 				<td class="spotTable__td">
@@ -63,13 +63,13 @@
 		name: "Table",
 		data() {
 			return {
-				imgHoveredIndex: -1,
+				imgHoveredIndex: - 1,
 			};
 		},
 		props: {
 			parentData: Array,
-			parentBtnIndex: Number,
-			parentPerPage: Number,
+			parentIndex: Number,
+			parentSize: Number,
 		},
 	};
 </script>

@@ -5,43 +5,30 @@
 			:value="index + 1"
 			v-for="(item, index) in parentLen"
 			:key="item"
-			:class="['page__btn', { 'page__btn--active': parentBtnIndex === index }]"
-			:disabled="parentBtnIndex === index"
-			@click="$emit('update-index', $event)"
+			:class="['page__btn', { 'page__btn--active': parentIndex === index }]"
+			:disabled="parentIndex === index"
+			@click="$emit('update', $event.target.value - 1)"
 		/>
 	</div>
 </template>
 <script>
 	export default {
 		name: "Pagination",
-		data() {
-			return {
-				nowPage: this.parentBtnindex,
-			};
-		},
 		props: {
-			parentPerPage: Number,
-			parentBtnIndex: Number,
+			parentSize: Number,
+			parentIndex: Number,
 			parentLen: Number,
-		},
-		methods: {
-			clickBtnIndex(e) {
-				this.nowPage = e.target.value;
-			},
 		},
 	};
 </script>
 <style lang="scss" scoped>
 	.page {
-		display: flex;
-		flex: {
-			direction: column;
-		}
 		margin: {
 			left: 23px;
 		}
 		&__btn {
-			position: relative;
+			width: 100%;
+			display: block;
 			margin: {
 				top: 6px;
 				bottom: 6px;
