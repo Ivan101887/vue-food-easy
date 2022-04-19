@@ -10,7 +10,6 @@
 			/>
 			<Pagination
 				:parent-index="btnIndex"
-				:parent-size="perPage"
 				:parent-len="sortData.length"
 				@update="updateBtnIndex"
 			/>

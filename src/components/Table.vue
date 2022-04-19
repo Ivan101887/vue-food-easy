@@ -30,15 +30,14 @@
 							@mouseenter="imgHoveredIndex = index"
 							@mouseout="imgHoveredIndex = -1"
 						/>
-						<div class="spotTable__lgBox" v-if="imgHoveredIndex === index">
-							<img
-								class="spotTable__img"
-								:src="item.PicURL"
-								:alt="item.Name"
-								width="348"
-								height="237"
-							/>
-						</div>
+						<img
+							v-if="imgHoveredIndex === index"
+							class="spotTable__img spotTable__img--lg"
+							:src="item.PicURL"
+							:alt="item.Name"
+							width="348"
+							height="237"
+						/>
 					</div>
 				</td>
 				<td class="spotTable__td">
@@ -63,7 +62,7 @@
 		name: "Table",
 		data() {
 			return {
-				imgHoveredIndex: - 1,
+				imgHoveredIndex: -1,
 			};
 		},
 		props: {
@@ -83,24 +82,25 @@
 			position: relative;
 			width: 78px;
 		}
-		&__lgBox {
-			position: absolute;
-			z-index: 1;
-			width: 300px;
-			padding: 10px;
-			top: 0;
-			left: calc(100% + 16px);
-			background: {
-				color: #fff;
-			}
-			box: {
-				shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-			}
-		}
+
 		&__img {
 			display: block;
 			width: 100%;
 			height: auto;
+			&--lg {
+				position: absolute;
+				z-index: 1;
+				width: 300px;
+				padding: 10px;
+				top: 0;
+				left: calc(100% + 16px);
+				background: {
+					color: #fff;
+				}
+				box: {
+					shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+				}
+			}
 		}
 		&__link {
 			color: #0077b5;

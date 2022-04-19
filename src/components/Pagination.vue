@@ -15,7 +15,6 @@
 	export default {
 		name: "Pagination",
 		props: {
-			parentSize: Number,
 			parentIndex: Number,
 			parentLen: Number,
 		},
